@@ -1,53 +1,27 @@
 package com.chocoapp.chocoappapi.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name="candies_list")
 public class Chocolates {
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="choco_id")
 	private Integer id;
-
+	@Column(name="choco_name")
 	private String name;
-
+	@Column(name="price")
 	private Integer price;
+	@Column(name="quantity")
+	private Integer quantity;
 
-	public Chocolates(Integer id, String name, Integer price) {
-		super();
-		this.name = name;
-		this.price = price;
-		this.id = id;
-	}
-
-	public Chocolates() {
-		super();
-	
-	}
-
-
-
-	@Override
-	public String toString() {
-		return "Chocolates [id=" + id + ", name=" + name + ", price=" + price + "]";
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Integer getPrice() {
-		return price;
-	}
-
-	public void setPrice(Integer price) {
-		this.price = price;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public Integer getId() {
-		return id;
-	}
 }

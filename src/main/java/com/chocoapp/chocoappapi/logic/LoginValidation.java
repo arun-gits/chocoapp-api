@@ -55,7 +55,7 @@ public class LoginValidation {
 		User user = new User();
 		user.setPassword(password);
 		if (data.contains("@") || data.contains(".")) {
-			user.setEmail(data);
+			user.setMail(data);
 			count = 0;
 		} else {
 			user.setMobile(data);
@@ -68,7 +68,7 @@ public class LoginValidation {
 
 		if (count == 0) {
 			try {
-				validEmail = test.validateEmail(user.getEmail());
+				validEmail = test.validateEmail(user.getMail());
 				validPassword = test.validatePassword(user.getPassword());
 			} catch (Exception e) {
 				// log.info(e.getMessage());
@@ -90,7 +90,7 @@ public class LoginValidation {
 
 		if (validEmail + validPassword == 2 && mobileOrEmail == 0) {
 			try {
-				message = dbTest.loginMailValidation(user.getEmail(), user.getPassword());
+				message = dbTest.loginMailValidation(user.getMail(), user.getPassword());
 				// log.info("Validation using DB passed");
 				// message="Validation using DB passed";
 				log.info(message);

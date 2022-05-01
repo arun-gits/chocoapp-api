@@ -8,7 +8,7 @@ public class RegistrationValidation {
 		try {
 			validateName(user.getName());
 			validateMobile(user.getMobile());
-			validateEmail(user.getEmail());
+			validateEmail(user.getMail());
 			validatePassword(user.getPassword());
 			validateAddress(user.getAddress());
 			return 1;
@@ -20,7 +20,7 @@ public class RegistrationValidation {
 
 	public static void validateAddress(String city) throws Exception {
 		if (city.isEmpty() || city.isBlank()) {
-			throw new Exception("Invalid name");
+			throw new Exception("Invalid address");
 
 		}
 
