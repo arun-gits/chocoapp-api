@@ -120,7 +120,7 @@ public class MainClass {
 		User user = new User();
 		user.setName(name);
 		user.setMobile(number);
-		user.setEmail(email);
+		user.setMail(email);
 		user.setAddress(address);
 		user.setPassword(password);
 		UserDAO add = new UserDAO();
@@ -140,7 +140,7 @@ public class MainClass {
 		log.info("Enter password:");
 		String password = sc.next();
 		if (data.contains("@") || data.contains(".")) {
-			user.setEmail(data);
+			user.setMail(data);
 			count = 0;
 		} else {
 			user.setMobile(data);
@@ -149,7 +149,7 @@ public class MainClass {
 		user.setPassword(password);
 		LoginValidation test = new LoginValidation();
 		if (count == 0) {
-			a = test.validateEmail(user.getEmail());
+			a = test.validateEmail(user.getMail());
 			b = test.validatePassword(user.getPassword());
 			c = 0;
 		} else if (count == 1) {
@@ -159,7 +159,7 @@ public class MainClass {
 		}
 		UserDAO dbTest = new UserDAO();
 		if (a + b == 0 && c == 0) {
-			String d = dbTest.loginMailValidation(user.getEmail(), user.getPassword());
+			String d = dbTest.loginMailValidation(user.getMail(), user.getPassword());
 			if (d.equals("")) {
 
 			} else {

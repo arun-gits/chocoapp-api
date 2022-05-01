@@ -1,7 +1,5 @@
 package com.chocoapp.chocoappapi.service;
 
-import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,7 +14,7 @@ public class UserService {
 
 	@Autowired
 	UserRepository userRepository;
-
+	//register user in dao method
 	public static String addUser(User user) {
 		String message = null;
 		int count = 0;
@@ -45,7 +43,7 @@ public class UserService {
 		}
 		return message;
 	}
-
+	//login by mobile number
 	public String loginByMobile(User user) {
 
 		User loginUser = userRepository.findByMobile(user.getMobile());
@@ -58,7 +56,7 @@ public class UserService {
 		}
 		return "No records found for this credentials";
 	}
-
+	//login by email id
 	public String loginByEmail(User user) {
 
 		User loginUser = userRepository.findByMail(user.getMail());
@@ -71,7 +69,7 @@ public class UserService {
 		}
 		return "No records found for this credentials";
 	}
-
+	//login 
 	public String login(User user) {
 		String message = null;
 		int count = 0;
@@ -111,7 +109,7 @@ public class UserService {
 		}
 		return message;
 	}
-
+	//register in jparepository method
 	public String registerUser(User user) {
 		String message = null;
 		int count = 0;
@@ -134,31 +132,14 @@ public class UserService {
 		}
 		return message;
 	}
-
-	public String deleteUserById(int id) {
-		String message = null;
-		Optional<User> user = userRepository.findById(id);
-		User deleteUser = user.get();
-		if (deleteUser == null) {
-			message = "User not found in this id";
-		} else {
-			userRepository.deleteById(id);
-			message = "id " + id + " deleted successfully";
-		}
-		return message;
-	}
-	
-	public List<User> listAllUsers(){
-		List<User> users = userRepository.findAll();
-		return users;
-	}
-	
+	//update user's password
 	public String updatePassword(int id, String password) {
 		String message = null;
-		Optional <User> updateUser = userRepository.findById(id);
-		if(updateUser.isPresent()) {
+		User updateUser = userRepository.findById(id);
+		if(updateUser!=null) {
 			userRepository.changePassword(id, password);
-			message = "Password updated successfully";
+			User user = userRepository.findById(id);
+			message = "Password "+ user.getPassword() + " updated successfully";
 		}
 		else {
 			message = "Error occurred\nTry again after a while";

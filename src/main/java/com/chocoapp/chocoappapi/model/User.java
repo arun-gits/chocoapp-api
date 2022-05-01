@@ -1,6 +1,5 @@
 package com.chocoapp.chocoappapi.model;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +13,13 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "candy_users")
+//@NamedQueries({  
+//
+//	@NamedQuery(name = "viewAllUsers", query = "FROM User u"), 
+//	@NamedQuery(name = "findUserByID", query = "FROM User u WHERE u.id = :id"),
+//	@NamedQuery(name = "findUserByName", query = "FROM User s WHERE u.name = :name"),
+//	@NamedQuery(name = "updateUserStatus",query = "update User u set u.status='inactive' where id= :id ")
+//})
 public class User {
 
 	@Id
@@ -30,6 +36,10 @@ public class User {
 	private String address;
 	@Column(name = "user_password", nullable = false)
 	private String password;
+	@Column(name="user_role", nullable=false, insertable=false)
+	private String role;
+	@Column(name="user_status", nullable=false, insertable=false)
+	private String status;
 	@Transient
 	private String data;
 }
