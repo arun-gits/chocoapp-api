@@ -34,14 +34,16 @@ public class ChocoController {
 		return chocolate;
 	}
 	
-	@GetMapping("search-choco")
-	public List<Chocolates> searchChoco(@RequestParam("name") String name){
-		List<Chocolates> list = chocoService.searchChoco(name);
-		return list;
-	}
+//	@GetMapping("search-choco")
+//	public List<Chocolates> searchChoco(@RequestParam("name") String name){	
+//		System.out.println("requested");
+//		List<Chocolates> list = chocoService.searchChoco(name);
+//		return list;
+//	}
 	
 	@GetMapping("search")
 	public List<Chocolates> search(@RequestParam ("name") String name){
+		System.out.println("requested");
 		List<Chocolates> chocolate = chocoService.search(name);
 		return chocolate;
 	}
