@@ -4,31 +4,33 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.chocoapp.chocoappapi.model.User;
 
 public class UserDAO implements IUserDAO {
 
+	private static Logger log = LogManager.getLogger(CandiesDAO.class);
+
 	public String addUser(User user) throws Exception {
 		Connection connect = null;
-		PreparedStatement add = null;
-		String message = null;
-
 		connect = ConnectionUtil.getConnection();
 		String query = "insert into candy_users (user_name,user_mobile,user_mail,user_address,user_password) values(?,?,?,?,?) ";
-
-		add = connect.prepareStatement(query);
-		add.setString(1, user.getName());
-		add.setString(2, user.getMobile());
-		add.setString(3, user.getMail());
-		add.setString(4, user.getAddress());
-		add.setString(5, user.getPassword());
-
-		int rows = add.executeUpdate();
-		System.out.println(rows + " user added");
-		message = "Welcome " + user.getName() + "! :)";
-		System.out.println("Welcome " + user.getName() + "! :)");
-		connect.close();
-		return message;
+		try (PreparedStatement add = connect.prepareStatement(query);) {
+			String message = null;
+			add.setString(1, user.getName());
+			add.setString(2, user.getMobile());
+			add.setString(3, user.getMail());
+			add.setString(4, user.getAddress());
+			add.setString(5, user.getPassword());
+			int rows = add.executeUpdate();
+			log.info(rows + " user added");
+			message = "Welcome " + user.getName() + "! :)";
+			log.info("Welcome " + user.getName() + "! :)");
+			connect.close();
+			return message;
+		}
 
 	}
 
@@ -55,6 +57,7 @@ public class UserDAO implements IUserDAO {
 			user.setMail(email);
 
 		}
+		show.close();
 		connect.close();
 		return user;
 	}
@@ -74,6 +77,7 @@ public class UserDAO implements IUserDAO {
 		while (data.next()) {
 			email = data.getString("user_mail");
 		}
+		validation.close();
 		connect.close();
 		if (email == null) {
 			return 0;
@@ -96,6 +100,7 @@ public class UserDAO implements IUserDAO {
 		while (data.next()) {
 			number = data.getString("user_mobile");
 		}
+		validation.close();
 		connect.close();
 		if (number == null) {
 			return 0;
@@ -124,12 +129,13 @@ public class UserDAO implements IUserDAO {
 			key = data.getString("user_password");
 			name = data.getString("user_name");
 		}
+		validation.close();
 		connect.close();
 		if (email == null) {
 			throw new Exception("You're not a registered user");
 
 		} else if (key.equals(password)) {
-			// System.out.println("Hello " + name + "! :)");
+			// log.info("Hello " + name + "! :)");
 			message = "Hello " + name + "! :)";
 			return message;
 		} else {
@@ -157,12 +163,13 @@ public class UserDAO implements IUserDAO {
 			key = data.getString("user_password");
 			name = data.getString("user_name");
 		}
+		validation.close();
 		connect.close();
 		if (number == null) {
 			throw new Exception("You're not a registered user");
 
 		} else if (key.equals(password)) {
-			// System.out.println("Hello " + name + "! :)");
+			// log.info("Hello " + name + "! :)");
 			message = "Hello " + name + "! :)";
 			return message;
 		} else {

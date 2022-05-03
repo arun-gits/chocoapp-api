@@ -25,21 +25,22 @@ public class UserController {
 	
 	@PostMapping("register")
 	public String register(@RequestBody User user) {
-		String message = userService.registerUser(user);
-		return message;
+		User user1 = new User();
+		user1 = user;
+		return userService.registerUser(user1);
 	}
 	
 	@PostMapping("login")
 	public String login(@RequestBody User user) {
-		String message = userService.login(user);
-		return message;	
+		User user1 = new User();
+		user1=user;
+		return userService.login(user1);
 	}
 	
 	
 	@PatchMapping("update-password/{id}/{password}")
 	public String updatePassword(@PathVariable("id") int id, @PathVariable("password") String password) {
-		String message = userService.updatePassword(id,password);
-		return message;
+		return userService.updatePassword(id,password);
 	}
 	
 }

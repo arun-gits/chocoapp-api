@@ -2,6 +2,9 @@ package com.chocoapp.chocoappapi.dao;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.chocoapp.chocoappapi.model.Chocolates;
 
 import java.util.ArrayList;
@@ -12,9 +15,11 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class CandiesDAO implements ICandiesDAO {
+	
+	private static Logger log = LogManager.getLogger(CandiesDAO.class);
 
 	public List<Chocolates> listAllChocolates() throws Exception {
-		List<Chocolates> listAllChocolates = new ArrayList<Chocolates>();
+		List<Chocolates> listAllChocolates = new ArrayList<>();
 		Connection connect = null;
 		PreparedStatement show = null;
 		ResultSet data = null;
@@ -34,13 +39,14 @@ public class CandiesDAO implements ICandiesDAO {
 			Chocolates list = new Chocolates(chocoid, chocolate, price);
 			listAllChocolates.add(list);
 		}
+		show.close();
 		connect.close();
 		return listAllChocolates;
 	}
 
 	public List<Chocolates> findByName(String name) throws Exception {
 
-		List<Chocolates> findByName = new ArrayList<Chocolates>();
+		List<Chocolates> findByName = new ArrayList<>();
 		Connection connect = null;
 		PreparedStatement show = null;
 		ResultSet data = null;
@@ -62,15 +68,16 @@ public class CandiesDAO implements ICandiesDAO {
 			menu.setPrice(price);
 			findByName.add(menu);
 		} else {
-			System.out.println("No records found");
+			log.info("No records found");
 			System.exit(1);
 		}
+		show.close();
 		connect.close();
 		return findByName;
 	}
 
 	public List<Chocolates> findNameAlike(String name) throws Exception {
-		List<Chocolates> findNameAlike = new ArrayList<Chocolates>();
+		List<Chocolates> findNameAlike = new ArrayList<>();
 		Connection connect = null;
 		// PreparedStatement show=null;
 		ResultSet data = null;
@@ -90,12 +97,13 @@ public class CandiesDAO implements ICandiesDAO {
 			Chocolates menu = new Chocolates(chocoid, chocolate, price);
 			findNameAlike.add(menu);
 		}
+		statement.close();
 		connect.close();
 		return findNameAlike;
 	}
 
 	public List<Chocolates> sortPriceInAsc() throws Exception {
-		List<Chocolates> chocolatesInAsc = new ArrayList<Chocolates>();
+		List<Chocolates> chocolatesInAsc = new ArrayList<>();
 		Connection connect = null;
 		PreparedStatement show = null;
 		ResultSet data = null;
@@ -116,13 +124,14 @@ public class CandiesDAO implements ICandiesDAO {
 
 			chocolatesInAsc.add(menu);
 		}
+		show.close();
 		connect.close();
 		return chocolatesInAsc;
 	}
 
 	public List<Chocolates> sortPriceInDesc() throws Exception {
 
-		List<Chocolates> chocolatesInDesc = new ArrayList<Chocolates>();
+		List<Chocolates> chocolatesInDesc = new ArrayList<>();
 		Connection connect = null;
 		PreparedStatement show = null;
 		ResultSet data = null;
@@ -144,6 +153,7 @@ public class CandiesDAO implements ICandiesDAO {
 
 			chocolatesInDesc.add(menu);
 		}
+		show.close();
 		connect.close();
 		return chocolatesInDesc;
 	}
@@ -162,6 +172,7 @@ public class CandiesDAO implements ICandiesDAO {
 		if (data.next()) {
 			rows = data.getInt("count(*)");
 		}
+		show.close();
 		connect.close();
 		return rows;
 	}
@@ -181,7 +192,8 @@ public class CandiesDAO implements ICandiesDAO {
 		add.registerOutParameter(3, java.sql.Types.VARCHAR);
 		add.executeUpdate();
 		message = add.getString(3);
-		System.out.println(chocolate + " is " + message + "fully added to the list");
+		log.info(chocolate + " is " + message + "fully added to the list");
+		add.close();
 		connect.close();
 	}
 
@@ -199,7 +211,8 @@ public class CandiesDAO implements ICandiesDAO {
 		delete.executeUpdate();
 		message = delete.getString(2);
 
-		System.out.println(chocolate + " is deleted " + message + "fully");
+		log.info(chocolate + " is deleted " + message + "fully");
+		delete.close();
 		connect.close();
 	}
 
@@ -217,7 +230,8 @@ public class CandiesDAO implements ICandiesDAO {
 		updatePrice.registerOutParameter(3, java.sql.Types.VARCHAR);
 		updatePrice.executeUpdate();
 		message = updatePrice.getString(3);
-		System.out.println("Price of choco id " + chocoId + " is updated to " + price + " " + message + "fully");
+		log.info("Price of choco id " + chocoId + " is updated to " + price + " " + message + "fully");
+		updatePrice.close();
 		connect.close();
 	}
 

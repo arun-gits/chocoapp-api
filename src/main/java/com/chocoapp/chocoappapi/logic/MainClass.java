@@ -14,6 +14,11 @@ import com.chocoapp.chocoappapi.dao.UserDAO;
 import com.chocoapp.chocoappapi.model.User;
 
 public class MainClass {
+	
+	private static final String RETURNING_YOU_TO_MAIN_PAGE = "Returning you to main page";
+	private static final String SORRY_WRONG_INPUT_REFRESH_THE_PAGE = "Sorry ! Wrong input, refresh the page";
+	private static final String YOU_RE_AN_EXISTING_USER = "You're an existing user";
+	
 	static Scanner sc = new Scanner(System.in);
 	private static Logger log = LogManager.getLogger(MainClass.class);
 
@@ -22,7 +27,7 @@ public class MainClass {
 		ShowChocolates.list(candy.listAllChocolates());
 	}
 
-	public static void Registration() throws Exception {
+	public static void registration() throws Exception {
 
 		log.info("Enter your name:");
 		String name = sc.nextLine();
@@ -63,7 +68,7 @@ public class MainClass {
 		if (a + b == 0) {
 			addUser(name, number, email, address, password);
 		} else {
-			log.info("Sorry ! Wrong input, refresh the page");
+			log.info(SORRY_WRONG_INPUT_REFRESH_THE_PAGE);
 			System.exit(0);
 		}
 	}
@@ -83,11 +88,12 @@ public class MainClass {
 		while (data.next()) {
 			email = data.getString("user_mail");
 		}
+		validation.close();
 		connect.close();
 		if (email == null) {
 			return 0;
 		} else {
-			log.info("You're an existing user");
+			log.info(YOU_RE_AN_EXISTING_USER);
 			return 1;
 		}
 	}
@@ -107,10 +113,12 @@ public class MainClass {
 			number = data.getString("user_mobile");
 		}
 		connect.close();
+		validation.close();
+		;
 		if (number == null) {
 			return 0;
 		} else {
-			log.info("You're an existing user");
+			log.info(YOU_RE_AN_EXISTING_USER);
 			return 1;
 		}
 	}
@@ -129,7 +137,7 @@ public class MainClass {
 
 	}
 
-	public static void Login() throws Exception {
+	public static void login() throws Exception {
 		int a = 0;
 		int b = 0;
 		int c = 0;
@@ -163,7 +171,7 @@ public class MainClass {
 			if (d.equals("")) {
 
 			} else {
-				log.info("Sorry ! Wrong input, refresh the page");
+				log.info(SORRY_WRONG_INPUT_REFRESH_THE_PAGE);
 				System.exit(0);
 			}
 		}
@@ -173,14 +181,14 @@ public class MainClass {
 			if (d.equals("")) {
 
 			} else {
-				log.info("Sorry ! Wrong input, refresh the page");
+				log.info(SORRY_WRONG_INPUT_REFRESH_THE_PAGE);
 				System.exit(0);
 			}
 		}
 		sc.close();
 	}
 
-	public static void PayMode() throws Exception {
+	public static void payMode() throws Exception {
 		log.info("Enter the payment mode");
 		log.info("1. UPI id");
 		log.info("2. Debit/Credit card");
@@ -189,11 +197,11 @@ public class MainClass {
 		log.info("5. Exit");
 		int choice = sc.nextInt();
 		if (choice == 1) {
-			PayOn(choice);
+			payOn(choice);
 		} else if (choice == 2) {
-			PayOn(choice);
+			payOn(choice);
 		} else if (choice == 3) {
-			PayOn(choice);
+			payOn(choice);
 		} else if (choice == 4) {
 
 		} else if (choice == 5) {
@@ -203,12 +211,12 @@ public class MainClass {
 
 		else {
 			log.info("Enter valid input");
-			PayMode();
+			payMode();
 		}
 
 	}
 
-	public static void PayOn(int a) throws Exception {
+	public static void payOn(int a) throws Exception {
 
 		OverallValidation captcha = new OverallValidation();
 		switch (a) {
@@ -218,13 +226,13 @@ public class MainClass {
 			if (!upi.contains("@") || !upi.contains(".")) {
 				log.info("Invalid UPI");
 				log.info("Enter valid UPI:");
-				PayOn(1);
+				payOn(1);
 			} else {
 
 				int capt = captcha.captchaVerification();
 				if (capt == 0) {
 
-					log.info("Returning you to main page");
+					log.info(RETURNING_YOU_TO_MAIN_PAGE);
 
 				}
 			}
@@ -237,21 +245,28 @@ public class MainClass {
 				int capt = captcha.captchaVerification();
 				if (capt == 0) {
 
-					log.info("Returning you to main page");
+					log.info(RETURNING_YOU_TO_MAIN_PAGE);
 
 				}
 			} else {
 				log.info("Invalid input");
-				PayOn(2);
+				payOn(2);
 			}
 			break;
 		case 3:
 			log.info("Your order will be delivered in delivery address");
 			int capt = captcha.captchaVerification();
 			if (capt == 0) {
-				log.info("Returning you to main page");
-
+				log.info(RETURNING_YOU_TO_MAIN_PAGE);
 			}
+		default:
+			log.info("Try later");
+			System.exit(0);
 		}
 	}
+
+	private MainClass() {
+		super();
+	}
+
 }

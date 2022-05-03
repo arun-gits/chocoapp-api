@@ -19,56 +19,55 @@ import com.chocoapp.chocoappapi.service.AdminService;
 @RestController
 @RequestMapping("admin")
 public class AdminController {
-	
+
 	@Autowired
 	AdminService adminService;
-	
+
 	@GetMapping("list-users")
-	public List<User> listUsers(){
-		List<User> users = adminService.listAllUsers();
-		return users;
+	public List<User> listUsers() {
+		return adminService.listAllUsers();
 	}
-	
+
 	@DeleteMapping("delete-user-id/{id}")
 	public String deleteById(@PathVariable("id") int id) {
-		String message = adminService.deleteUserById(id);
-		return message;
+		return adminService.deleteUserById(id);
+
 	}
-	
+
 	@GetMapping("block-user-id/{id}")
 	public String blockById(@PathVariable("id") int id) {
-		String message = adminService.blockUserById(id);
-		return message;
+		return adminService.blockUserById(id);
+
 	}
-	
+
 	@GetMapping("activate-user-id/{id}")
 	public String activateById(@PathVariable("id") int id) {
-		String message = adminService.activateUserById(id);
-		return message;
+		return adminService.activateUserById(id);
+
 	}
-	
+
 	@GetMapping("list-chocolates")
-	public List<Chocolates> listChocolates(){
-		List<Chocolates> chocolates = adminService.listAllChocos();
-		return chocolates;
+	public List<Chocolates> listChocolates() {
+		return adminService.listAllChocos();
+
 	}
-	
+
 	@PostMapping("add-chocolate")
 	public String addChocolate(@RequestBody Chocolates chocolate) {
-		String message = adminService.addChocolate(chocolate);
-		return message;
+		Chocolates chocolate1 = new Chocolates();
+		return adminService.addChocolate(chocolate1);
+
 	}
-	
+
 	@DeleteMapping("delete-choco-id/{id}")
 	public String deleteChoco(@PathVariable("id") int id) {
-		String message = adminService.deleteChocoById(id);
-		return message;
+		return adminService.deleteChocoById(id);
+
 	}
-	
+
 	@PatchMapping("update-choco-price/{id}/{price}")
 	public String updateChocoPrice(@PathVariable("id") int id, @PathVariable("price") int price) {
-		String message = adminService.updateChocoPrice(id, price);
-		return message;
+		return adminService.updateChocoPrice(id, price);
 	}
 
 }

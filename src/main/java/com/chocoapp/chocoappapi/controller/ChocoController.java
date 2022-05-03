@@ -24,14 +24,12 @@ public class ChocoController {
 	
 	@GetMapping("list-all")
 	public List<Chocolates> listAll(){
-		List<Chocolates> chocolates = chocoService.findAllChocos();
-		return chocolates;
+		return chocoService.findAllChocos();	
 	}
 	
 	@GetMapping("search-by-name")
 	public Chocolates findByName(@RequestParam("name") String name) {
-		Chocolates chocolate = chocoService.findByName(name);
-		return chocolate;
+		return chocoService.findByName(name);
 	}
 	
 //	@GetMapping("search-choco")
@@ -44,20 +42,19 @@ public class ChocoController {
 	@GetMapping("search")
 	public List<Chocolates> search(@RequestParam ("name") String name){
 		System.out.println("requested");
-		List<Chocolates> chocolate = chocoService.search(name);
-		return chocolate;
+		return chocoService.search(name);
 	}
 	
 	@GetMapping("sort-price-asc")
 	public List<Chocolates> ascList(){
-		List<Chocolates> ascList = chocoService.sortPriceByAsc();
-		return ascList;
+		return chocoService.sortPriceByAsc();
+		
 	}
 	
 	@GetMapping("sort-price-desc")
 	public List<Chocolates> descList(){
-		List<Chocolates> descList = chocoService.sortPriceByDesc();
-		return descList;
+		// List<Chocolates> descList = chocoService.sortPriceByDesc();
+		return chocoService.sortPriceByDesc();
 	}
 	
 }
