@@ -1,38 +1,46 @@
 package com.chocoapp.chocoappapi.model;
 
-public class Shopping {
-	
-	public Shopping() {
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
-	}
+
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name="candies_trans")
+public class Shopping {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="id")
+	private Integer id;
+	
+	//@JoinColumn(name="order_id")
+	private Integer order_id;
+	
+//	@ManyToMany(cascade = CascadeType.PERSIST)
+//	@JoinColumn(name="user_id")
+//	private User user;
 	
 	private Integer choco_id;
+	
 	private String choco_name;
-	private String choco_price;
 	
+	private Integer choco_price;
+		
+	private Integer choco_quantity;
 	
-	public Integer getChoco_id() {
-		return choco_id;
-	}
-	public void setChoco_id(Integer choco_id) {
-		this.choco_id = choco_id;
-	}
-	public String getChoco_name() {
-		return choco_name;
-	}
-	public void setChoco_name(String choco_name) {
-		this.choco_name = choco_name;
-	}
-	public String getChoco_price() {
-		return choco_price;
-	}
-	public void setChoco_price(String choco_price) {
-		this.choco_price = choco_price;
-	}
-	@Override
-	public String toString() {
-		return "Shopping [choco_id=" + choco_id + ", choco_name=" + choco_name + ", choco_price=" + choco_price + "]";
-	}
+	private String payment_mode;
 	
+	private String purchased_on;
 	
+	private String user_address;
+		
 }

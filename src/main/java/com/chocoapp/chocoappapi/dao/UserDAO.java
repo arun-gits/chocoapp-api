@@ -19,7 +19,7 @@ public class UserDAO implements IUserDAO {
 		add = connect.prepareStatement(query);
 		add.setString(1, user.getName());
 		add.setString(2, user.getMobile());
-		add.setString(3, user.getEmail());
+		add.setString(3, user.getMail());
 		add.setString(4, user.getAddress());
 		add.setString(5, user.getPassword());
 
@@ -52,7 +52,7 @@ public class UserDAO implements IUserDAO {
 			user.setAddress(address);
 			user.setName(name);
 			user.setMobile(mobile);
-			user.setEmail(email);
+			user.setMail(email);
 
 		}
 		connect.close();

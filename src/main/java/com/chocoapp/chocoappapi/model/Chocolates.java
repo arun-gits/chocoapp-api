@@ -35,4 +35,16 @@ public class Chocolates implements Comparable<Chocolates>{
 		return 1;
 	}
 
+	public Chocolates(Integer id, String name, Integer price) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.price = price;
+	}
+
+	public Chocolates() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 }
