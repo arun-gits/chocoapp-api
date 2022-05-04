@@ -20,6 +20,8 @@ public interface ChocoRepository extends JpaRepository<Chocolates,Integer>{
 	
 	Chocolates findByName(String name);
 	
+	
+	
 	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	@Modifying
 	@Query(value="SELECT * FROM candies_list WHERE choco_name LIKE '%name%' ",nativeQuery=true)

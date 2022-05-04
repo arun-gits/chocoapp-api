@@ -1,11 +1,13 @@
 package com.chocoapp.chocoappapi.service;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.chocoapp.chocoappapi.dao.UserDAO;
-import com.chocoapp.chocoappapi.logic.RegistrationValidation;
+import com.chocoapp.chocoappapi.exception.ServiceException;
+import com.chocoapp.chocoappapi.exception.ValidationException;
+import com.chocoapp.chocoappapi.logic.UserValidator;
 import com.chocoapp.chocoappapi.model.User;
 import com.chocoapp.chocoappapi.repository.UserRepository;
 
@@ -14,12 +16,13 @@ public class UserService {
 
 	@Autowired
 	UserRepository userRepository;
-	//register user in dao method
+
+	// register user in dao method
 	public static String addUser(User user) {
 		String message = null;
 		int count = 0;
 		try {
-			RegistrationValidation.registerDetailsValidation(user);
+			UserValidator.registerDetailsValidation(user);
 		} catch (Exception e) {
 			message = e.getMessage();
 			count = 1;
@@ -43,7 +46,8 @@ public class UserService {
 		}
 		return message;
 	}
-	//login by mobile number
+
+	// login by mobile number
 	public String loginByMobile(User user) {
 
 		User loginUser = userRepository.findByMobile(user.getMobile());
@@ -56,7 +60,8 @@ public class UserService {
 		}
 		return "No records found for this credentials";
 	}
-	//login by email id
+
+	// login by email id
 	public String loginByEmail(User user) {
 
 		User loginUser = userRepository.findByMail(user.getMail());
@@ -69,7 +74,8 @@ public class UserService {
 		}
 		return "No records found for this credentials";
 	}
-	//login 
+
+	// login
 	public String login(User user) {
 		String message = null;
 		int count = 0;
@@ -109,42 +115,41 @@ public class UserService {
 		}
 		return message;
 	}
-	//register in jparepository method
-	public String registerUser(User user) {
-		String message = null;
-		int count = 0;
+
+	// register in jparepository method
+	public void registerUser(User user) throws ServiceException, ValidationException {
 		try {
-			count = RegistrationValidation.registerDetailsValidation(user);
-		} catch (Exception e) {
-			message = e.getMessage();
-		}
-		if (count == 1) {
+			UserValidator.registerDetailsValidation(user);
+
 			User mailCheck = userRepository.findByMail(user.getMail());
 			User mobileCheck = userRepository.findByMobile(user.getMobile());
-			if (mailCheck == null && mobileCheck == null) {
-				User addedUser = userRepository.save(user);
-				message = "Welcome to Choco Shop " + addedUser.getName();
-			} else if (mailCheck != null || mobileCheck != null) {
-				message = "Already an existing user";
-			} else {
-				message = "Unknown error occurred\nTry again after a while";
+
+			if (mailCheck != null || mobileCheck != null) {
+				throw new ValidationException("Already an existing user");
 			}
+			
+			userRepository.save(user);
 		}
-		return message;
+		 catch (DataAccessException e) {
+			throw new ServiceException(e.getMessage());
+			
+		}
+
+		// return message;
 	}
-	//update user's password
+
+	// update user's password
 	public String updatePassword(int id, String password) {
 		String message = null;
 		User updateUser = userRepository.findById(id);
-		if(updateUser!=null) {
+		if (updateUser != null) {
 			userRepository.changePassword(id, password);
 			User user = userRepository.findById(id);
-			message = "Password "+ user.getPassword() + " updated successfully";
-		}
-		else {
+			message = "Password " + user.getPassword() + " updated successfully";
+		} else {
 			message = "Error occurred\nTry again after a while";
 		}
 		return message;
 	}
-	
+
 }

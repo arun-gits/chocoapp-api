@@ -3,6 +3,8 @@ package com.chocoapp.chocoappapi.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.chocoapp.chocoappapi.dto.ChocolateDTO;
 import com.chocoapp.chocoappapi.model.Chocolates;
 import com.chocoapp.chocoappapi.model.User;
 import com.chocoapp.chocoappapi.service.AdminService;
@@ -47,16 +50,15 @@ public class AdminController {
 	}
 
 	@GetMapping("list-chocolates")
-	public List<Chocolates> listChocolates() {
+	public List<ChocolateDTO> listChocolates() {
 		return adminService.listAllChocos();
 
 	}
 
 	@PostMapping("add-chocolate")
-	public String addChocolate(@RequestBody Chocolates chocolate) {
-		Chocolates chocolate1 = new Chocolates();
-		return adminService.addChocolate(chocolate1);
-
+	public ResponseEntity<String> addChocolate(@RequestBody ChocolateDTO chocolate) {
+		String addChocolate = adminService.addChocolate(chocolate);
+		return new ResponseEntity<>(addChocolate, HttpStatus.OK);
 	}
 
 	@DeleteMapping("delete-choco-id/{id}")

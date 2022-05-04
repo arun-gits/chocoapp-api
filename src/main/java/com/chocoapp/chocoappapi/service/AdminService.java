@@ -1,10 +1,13 @@
 package com.chocoapp.chocoappapi.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.chocoapp.chocoappapi.converter.ChocoConverter;
+import com.chocoapp.chocoappapi.dto.ChocolateDTO;
 import com.chocoapp.chocoappapi.model.Chocolates;
 import com.chocoapp.chocoappapi.model.User;
 import com.chocoapp.chocoappapi.repository.ChocoRepository;
@@ -18,7 +21,10 @@ public class AdminService {
 
 	@Autowired
 	ChocoRepository chocoRepository;
-
+	
+	@Autowired
+	ChocoService chocoService;
+	
 	// view all users
 	public List<User> listAllUsers() {
 		List<User> users = userRepository.findAll();
@@ -68,18 +74,20 @@ public class AdminService {
 	}
 
 	// list all chocolates
-	public List<Chocolates> listAllChocos() {
+	public List<ChocolateDTO> listAllChocos() {
 		List<Chocolates> chocos = chocoRepository.findAll();
-		return chocos;
+		
+		List<ChocolateDTO> list = ChocoConverter.toDTO(chocos);
+		return list;
 	}
 
 	// add chocolate
-	public String addChocolate(Chocolates chocolate) {
+	public String addChocolate(ChocolateDTO chocolate) {
 		String message = null;
-		ChocoService chocoService = new ChocoService();
 		List<Chocolates> exists = chocoService.search(chocolate.getName());
 		if (exists.isEmpty()) {
-			chocoRepository.save(chocolate);
+			Chocolates c = ChocoConverter.toModel(chocolate);
+			chocoRepository.save(c);
 			Chocolates addedChoco = chocoRepository.findByName(chocolate.getName());
 			message = "Chocolate added successfully " + addedChoco;
 		} else {

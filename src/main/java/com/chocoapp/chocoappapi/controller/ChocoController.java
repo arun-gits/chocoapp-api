@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.chocoapp.chocoappapi.dto.ChocolateDTO;
 import com.chocoapp.chocoappapi.model.Chocolates;
 import com.chocoapp.chocoappapi.repository.ChocoRepository;
+import com.chocoapp.chocoappapi.service.AdminService;
 import com.chocoapp.chocoappapi.service.ChocoService;
 
 @RestController
@@ -22,9 +24,12 @@ public class ChocoController {
 	@Autowired
 	ChocoService chocoService;
 	
+	@Autowired
+	AdminService adminService;
+	
 	@GetMapping("list-all")
-	public List<Chocolates> listAll(){
-		return chocoService.findAllChocos();	
+	public List<ChocolateDTO> listAll(){
+		return adminService.listAllChocos();	
 	}
 	
 	@GetMapping("search-by-name")
