@@ -4,48 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
-import com.chocoapp.chocoappapi.dao.UserDAO;
 import com.chocoapp.chocoappapi.exception.ServiceException;
 import com.chocoapp.chocoappapi.exception.ValidationException;
-import com.chocoapp.chocoappapi.logic.UserValidator;
 import com.chocoapp.chocoappapi.model.User;
 import com.chocoapp.chocoappapi.repository.UserRepository;
+import com.chocoapp.chocoappapi.validation.UserValidator;
 
 @Repository
 public class UserService {
 
 	@Autowired
 	UserRepository userRepository;
-
-	// register user in dao method
-	public static String addUser(User user) {
-		String message = null;
-		int count = 0;
-		try {
-			UserValidator.registerDetailsValidation(user);
-		} catch (Exception e) {
-			message = e.getMessage();
-			count = 1;
-		}
-		UserDAO registerUser = new UserDAO();
-		if (count != 1) {
-			try {
-				registerUser.signUpMailValidation(user.getMail());
-				registerUser.signUpNumberValidation(user.getMobile());
-				count = 2;
-			} catch (Exception e) {
-				message = e.getMessage();
-			}
-		}
-		if (count == 2) {
-			try {
-				message = registerUser.addUser(user);
-			} catch (Exception e) {
-				message = e.getMessage();
-			}
-		}
-		return message;
-	}
 
 	// login by mobile number
 	public String loginByMobile(User user) {
