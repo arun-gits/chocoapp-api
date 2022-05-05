@@ -3,16 +3,15 @@ package com.chocoapp.chocoappapi.util;
 import com.chocoapp.chocoappapi.exception.ValidationException;
 
 public class StringUtil {
-	
-	public int isValidMail(String mail) throws ValidationException {
-		if (!mail.contains("@") || !mail.contains(".")) {
-			throw new ValidationException("Invalid mail");
 
+	public int isValidMail(String mail) throws ValidationException {
+		if (!mail.contains("@") || !mail.contains(".") || !mail.endsWith(".")) {
+			throw new ValidationException("Invalid mail");
 		} else {
 			return 1;
 		}
 	}
-	
+
 	public int isValidMobile(String mobile) throws Exception {
 		if (mobile.length() != 10) {
 			throw new Exception("Invalid number !");

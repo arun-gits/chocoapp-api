@@ -1,4 +1,4 @@
-package com.chocoapp.chocoappapi.logic;
+package com.chocoapp.chocoappapi.validation;
 
 import com.chocoapp.chocoappapi.exception.ValidationException;
 import com.chocoapp.chocoappapi.model.User;
@@ -13,9 +13,9 @@ public class UserValidator {
 	 */
 	public static void registerDetailsValidation(User user) throws ValidationException {
 		validateName(user.getName());
-		validateMobile(user.getMobile());
+		isValidMobile(user.getMobile());
 		validateEmail(user.getMail());
-		validatePassword(user.getPassword());
+		isValidPassword(user.getPassword());
 		validateAddress(user.getAddress());
 	}
 
@@ -43,7 +43,7 @@ public class UserValidator {
 		}
 	}
 
-	public static void validateMobile(String mobile) throws ValidationException {
+	public static void isValidMobile(String mobile) throws ValidationException {
 		if (mobile.length() != 10) {
 			throw new ValidationException("Invalid number !!!");
 
@@ -58,7 +58,7 @@ public class UserValidator {
 		}
 	}
 
-	public static void validatePassword(String password) throws ValidationException {
+	public static void isValidPassword(String password) throws ValidationException {
 
 		if (password.isEmpty() || password.isBlank() || password.length() < 8 || password.length() > 16) {
 			throw new ValidationException("Password should be minimum 8 characters and maximum 16 characters");
