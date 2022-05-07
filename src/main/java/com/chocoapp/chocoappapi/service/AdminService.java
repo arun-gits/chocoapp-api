@@ -1,13 +1,17 @@
 package com.chocoapp.chocoappapi.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.chocoapp.chocoappapi.converter.ChocoConverter;
+import com.chocoapp.chocoappapi.converter.UserConverter;
 import com.chocoapp.chocoappapi.dto.ChocolateDTO;
-import com.chocoapp.chocoappapi.model.Chocolates;
+import com.chocoapp.chocoappapi.dto.UserDTO;
+import com.chocoapp.chocoappapi.exception.ValidationException;
+import com.chocoapp.chocoappapi.model.Chocolate;
 import com.chocoapp.chocoappapi.model.User;
 import com.chocoapp.chocoappapi.repository.ChocoRepository;
 import com.chocoapp.chocoappapi.repository.UserRepository;
@@ -20,106 +24,85 @@ public class AdminService {
 
 	@Autowired
 	ChocoRepository chocoRepository;
-	
+
 	@Autowired
 	ChocoService chocoService;
-	
+
 	// view all users
-	public List<User> listAllUsers() {
-		List<User> users = userRepository.findAll();
+	public List<UserDTO> listAllUsers() {
+		List<User> usersList = userRepository.findAll();
+		List<UserDTO> users = UserConverter.toDTO(usersList);
 		return users;
 	}
 
 	// delete user from the list
-	public String deleteUserById(int id) {
-		String message = null;
-		User user = userRepository.findById(id);
-		if (user == null) {
-			message = "Invalid user id";
-		} else {
-			userRepository.deleteById(id);
-			message = "id " + id + " deleted successfully " + user;
+	public String deleteUserById(int id) throws ValidationException {
+		Optional<User> user = userRepository.findById(id);
+		if (user.isEmpty()) {
+			throw new ValidationException("Invalid user id");
 		}
-		return message;
+		userRepository.deleteById(id);
+		return "id " + id + " deleted successfully " + user;
 	}
 
 	// block user from the list
-	public String blockUserById(int id) {
-		String message = null;
-		User user = userRepository.findById(id);
-		if (user != null) {
-			userRepository.blockUser(id);
-			User deactivatedUser = userRepository.findById(id);
-			message = "Successfully deactivated " + deactivatedUser;
-		} else {
-			message = "Invalid user id";
+	public String blockUserById(int id) throws ValidationException {
+		Optional<User> user = userRepository.findById(id);
+		if (user.isEmpty()) {
+			throw new ValidationException("Invalid user id");
 		}
-		return message;
+		userRepository.blockUser(id);
+		return "Successfully deactivated " + id;
 	}
 
 	// activate user
-	public String activateUserById(int id) {
-		String message = null;
-		User user = userRepository.findById(id);
-		if (user != null) {
-			userRepository.activateUser(id);
-
-			User activatedUser = userRepository.findById(id);
-			message = "Successfully activated " + activatedUser;
-		} else {
-			message = "Invalid user id";
+	public String activateUserById(int id) throws ValidationException {
+		Optional<User> user = userRepository.findById(id);
+		if (user.isEmpty()) {
+			throw new ValidationException("Invalid user id");
 		}
-		return message;
+		userRepository.activateUser(id);
+		return "Successfully activated " + id;
 	}
-
-	// list all chocolates
-	public List<ChocolateDTO> listAllChocos() {
-		List<Chocolates> chocos = chocoRepository.findAll();
-		
-		List<ChocolateDTO> list = ChocoConverter.toDTO(chocos);
-		return list;
+	
+	public List<ChocolateDTO> findAllChocos() throws ValidationException{
+		List<Chocolate> chocolateList = chocoRepository.findAll();
+		List<ChocolateDTO> chocolates = ChocoConverter.toDTO(chocolateList);
+		if(chocolates.isEmpty()) {
+			throw new ValidationException ("No chocolates found");
+		}
+		return chocolates;
 	}
-
+	
 	// add chocolate
-	public String addChocolate(ChocolateDTO chocolate) {
-		String message = null;
-		List<Chocolates> exists = chocoService.search(chocolate.getName());
-		if (exists.isEmpty()) {
-			Chocolates c = ChocoConverter.toModel(chocolate);
-			chocoRepository.save(c);
-			Chocolates addedChoco = chocoRepository.findByName(chocolate.getName());
-			message = "Chocolate added successfully " + addedChoco;
-		} else {
-			message = "Chocolate aleady exists";
+	public String addChocolate(ChocolateDTO chocolate) throws ValidationException {
+		List<ChocolateDTO> exists = chocoService.search(chocolate.getName());
+		if (!exists.isEmpty()) {
+			throw new ValidationException("Chocolate already exists");
 		}
-		return message;
+		Chocolate c = ChocoConverter.toModel(chocolate);
+		chocoRepository.save(c);
+		return "Chocolate added successfully " + chocolate;
 	}
 
 	// delete chocolate from the list
-	public String deleteChocoById(int id) {
-		String message = null;
-		Chocolates chocolate = chocoRepository.findById(id);
-		if (chocolate != null) {
-			chocoRepository.deleteById(id);
-			message = "Successfully removed " + chocolate;
-		} else {
-			message = "No chocolate found in this id";
+	public String deleteChocoById(int id) throws ValidationException {
+		Chocolate chocolate = chocoRepository.findById(id);
+		if (chocolate == null) {
+			throw new ValidationException("Invalid id");
 		}
-		return message;
+		chocoRepository.deleteById(id);
+		return "Chocolate deleted successfully " + chocolate;
 	}
 
 	// update chocolate price
-	public String updateChocoPrice(int id, int price) {
-		String message = null;
-		Chocolates chocolate = chocoRepository.findById(id);
-		if (chocolate != null) {
-			chocoRepository.updateChocoPrice(id, price);
-			Chocolates choco = chocoRepository.findByName(chocolate.getName());
-			message = "Successfully updated price " + choco;
-		} else {
-			message = "No chocolate found in this id";
+	public String updateChocoPrice(int id, int price) throws ValidationException {
+		Chocolate chocolate = chocoRepository.findById(id);
+		if (chocolate == null) {
+			throw new ValidationException("Invalid id");
 		}
-		return message;
+		chocoRepository.updateChocoPrice(id, price);
+		return "Successfully updated price " + chocolate;
 	}
 
 }

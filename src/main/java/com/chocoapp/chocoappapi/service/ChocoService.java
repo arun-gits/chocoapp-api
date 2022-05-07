@@ -1,5 +1,6 @@
 package com.chocoapp.chocoappapi.service;
 
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -8,58 +9,48 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.chocoapp.chocoappapi.model.Chocolates;
+import com.chocoapp.chocoappapi.converter.ChocoConverter;
+import com.chocoapp.chocoappapi.dto.ChocolateDTO;
+import com.chocoapp.chocoappapi.exception.ValidationException;
+import com.chocoapp.chocoappapi.model.Chocolate;
 import com.chocoapp.chocoappapi.repository.ChocoRepository;
 
 @Repository
 public class ChocoService {
 
+	private static final String NO_CHOCOLATES_FOUND = "No chocolates found";
 	@Autowired
 	ChocoRepository chocoRepository;
 
-	public List<Chocolates> findAllChocos() {
-		List<Chocolates> chocos = chocoRepository.findAll();
-		return chocos;
+	public List<ChocolateDTO> findAllChocos() throws ValidationException{
+		List<Chocolate> chocolateList = chocoRepository.findAll();
+		List<ChocolateDTO> chocolates = ChocoConverter.toDTO(chocolateList);
+		if(chocolates.isEmpty()) {
+			throw new ValidationException (NO_CHOCOLATES_FOUND);
+		}
+		return chocolates;
 	}
 
-	public Chocolates findByName(String name) {
-		Chocolates chocolate = chocoRepository.findByName(name);
-		return chocolate;
-	}
-
-//	public List<Chocolates> searchChoco(String name) {
-//		// without static
-//		System.out.println("received in service");
-//		List<Chocolates> list = findAllChocos();
-//		System.out.println(list);
-//		System.out.println("result from repository");
-//		List<Chocolates> searchChoco = list.stream().filter(p -> p.getName().contains(name))
-//				.collect(Collectors.toList());
-//		if (searchChoco == null) {
-//			return null;
-//		}
-//		return searchChoco;
-//
-//	}
-
-	public List<Chocolates> search(String name) {
-		// List<Chocolates> search = chocoRepository.search(name);
-		List<Chocolates> chocolates = findAllChocos();
-		List<Chocolates> search = chocolates.
+	public List<ChocolateDTO> search(String name) throws ValidationException{
+		List<ChocolateDTO> chocolates = findAllChocos();
+		List<ChocolateDTO> search = chocolates.
 				stream().
 				filter(c-> c.getName().toLowerCase().contains(name.toLowerCase())).
 				collect(Collectors.toList());
+		if(search.isEmpty()) {
+			throw new ValidationException(NO_CHOCOLATES_FOUND);
+		}
 		return search;
 	}
 	
-	public List<Chocolates> sortPriceByAsc(){
-		List <Chocolates> list = findAllChocos();
+	public List<ChocolateDTO> sortPriceByAsc() throws ValidationException{
+		List <ChocolateDTO> list = findAllChocos();
 		Collections.sort(list);
 		return list;
 	}
 	
-	public List<Chocolates> sortPriceByDesc(){
-		List <Chocolates> list = findAllChocos();
+	public List<ChocolateDTO> sortPriceByDesc() throws ValidationException{
+		List <ChocolateDTO> list = findAllChocos();
 		Collections.sort(list,Comparator.reverseOrder());
 		return list;
 	}

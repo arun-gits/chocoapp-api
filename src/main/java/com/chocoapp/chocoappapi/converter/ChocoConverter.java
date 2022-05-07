@@ -4,43 +4,43 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.chocoapp.chocoappapi.dto.ChocolateDTO;
-import com.chocoapp.chocoappapi.model.Chocolates;
+import com.chocoapp.chocoappapi.model.Chocolate;
 
 public class ChocoConverter {
 
-	public static ChocolateDTO toDTO(Chocolates c) {
-		ChocolateDTO candy = new ChocolateDTO();
-		candy.setId(c.getId());
-		candy.setName(c.getName());
-		candy.setPrice(c.getPrice());
-		candy.setQuantity(c.getQuantity());
-		return candy;
+	public static ChocolateDTO toDTO(Chocolate chocolate) {
+		ChocolateDTO chocolateDto = new ChocolateDTO();
+		chocolateDto.setId(chocolate.getId());
+		chocolateDto.setName(chocolate.getName());
+		chocolateDto.setPrice(chocolate.getPrice());
+		chocolateDto.setQuantity(chocolate.getQuantity());
+		return chocolateDto;
 	}
 
-	public static List<ChocolateDTO> toDTO(List<Chocolates> chocos) {
-		List<ChocolateDTO> list = new ArrayList<>();
-		for (Chocolates c : chocos) {
-			ChocolateDTO candy = toDTO(c);
-			list.add(candy);
+	public static List<ChocolateDTO> toDTO(List<Chocolate> chocolates) {
+		List<ChocolateDTO> chocolatesDto = new ArrayList<>();
+		for (Chocolate c : chocolates) {
+			ChocolateDTO chocolateDto = toDTO(c);
+			chocolatesDto.add(chocolateDto);
 		}
-		return list;
+		return chocolatesDto;
 	}
 
-	public static Chocolates toModel(ChocolateDTO c) {
-		Chocolates candy = new Chocolates();
-		candy.setId(c.getId());
-		candy.setName(c.getName());
-		candy.setPrice(c.getPrice());
-		candy.setQuantity(c.getQuantity());
-		return candy;
+	public static Chocolate toModel(ChocolateDTO chocolateDto) {
+		Chocolate chocolate = new Chocolate();
+		chocolate.setId(chocolateDto.getId());
+		chocolate.setName(chocolateDto.getName());
+		chocolate.setPrice(chocolateDto.getPrice());
+		chocolate.setQuantity(chocolateDto.getQuantity());
+		return chocolate;
 	}
 
-	public static List<Chocolates> toModel(List<ChocolateDTO> chocolateDTOList) {
-		List<Chocolates> chocos = new ArrayList<>();
-		for (ChocolateDTO c : chocolateDTOList) {
-			Chocolates candy = toModel(c);
-			chocos.add(candy);
+	public static List<Chocolate> toModel(List<ChocolateDTO> chocolatesDto) {
+		List<Chocolate> chocolates = new ArrayList<>();
+		for (ChocolateDTO chocolateDto : chocolatesDto) {
+			Chocolate chocolate = toModel(chocolateDto);
+			chocolates.add(chocolate);
 		}
-		return chocos;
+		return chocolates;
 	}
 }

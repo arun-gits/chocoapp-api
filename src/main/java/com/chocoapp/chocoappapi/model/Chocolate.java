@@ -11,38 +11,27 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="candies_list")
-public class Chocolates implements Comparable<Chocolates>{
+@Table(name = "candies_list")
+public class Chocolate {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="choco_id")
+	@Column(name = "choco_id")
 	private Integer id;
-	@Column(name="choco_name")
+	@Column(name = "choco_name")
 	private String name;
-	@Column(name="price")
+	@Column(name = "price")
 	private Integer price;
-	@Column(name="quantity")
+	@Column(name = "quantity")
 	private Integer quantity;
-	
-	@Override
-	public int compareTo(Chocolates o) {
-		if(this.price==o.getPrice()) {
-		return 0;
-		}
-		else if(this.price<o.getPrice()) {
-			return -1;
-		}
-		return 1;
-	}
 
-	public Chocolates(Integer id, String name, Integer price) {
+	public Chocolate(Integer id, String name, Integer price) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.price = price;
 	}
 
-	public Chocolates() {
+	public Chocolate() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
