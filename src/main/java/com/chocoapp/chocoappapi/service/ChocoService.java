@@ -4,7 +4,6 @@ package com.chocoapp.chocoappapi.service;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -35,8 +34,7 @@ public class ChocoService {
 		List<ChocolateDTO> chocolates = findAllChocos();
 		List<ChocolateDTO> search = chocolates.
 				stream().
-				filter(c-> c.getName().toLowerCase().contains(name.toLowerCase())).
-				collect(Collectors.toList());
+				filter(c-> c.getName().toLowerCase().contains(name.toLowerCase())).toList();
 		if(search.isEmpty()) {
 			throw new ValidationException(NO_CHOCOLATES_FOUND);
 		}

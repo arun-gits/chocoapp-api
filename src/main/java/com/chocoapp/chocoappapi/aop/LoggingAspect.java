@@ -1,6 +1,5 @@
 package com.chocoapp.chocoappapi.aop;
 
-
 import java.util.Arrays;
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -13,22 +12,22 @@ import org.springframework.stereotype.Component;
 @Component
 @Aspect
 public class LoggingAspect {
-	
-	//private static Logger log = LoggerFactory.getLogger(LoggingAspect.class);
-	
+
+	private static Logger log = LoggerFactory.getLogger(LoggingAspect.class);
+
 	@Around("execution(* com.chocoapp.chocoappapi.service.ChocoService+.*(..))")
-	public Object userAdvice(ProceedingJoinPoint joinPoint) throws Throwable  {
-		
-		System.out.println("logAround() is running!");
-		System.out.println("Method Signature : " + joinPoint.getSignature().getName());
-		System.out.println("Method arguments : " + Arrays.toString(joinPoint.getArgs()));
+	public Object userAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
 
-		System.out.println("Around before is running!");
+		log.info("logAround() is running!");
+		log.info("Method Signature : " + joinPoint.getSignature().getName());
+		log.info("Method arguments : " + Arrays.toString(joinPoint.getArgs()));
+
+		log.info("Around before is running!");
 		Object obj = joinPoint.proceed(); // continue on the intercepted method
-		System.out.println(obj);
-		System.out.println("Around after is running!");
 
-		System.out.println("******");
+		log.info("Around after is running!");
+
+		log.info("******");
 		return obj;
 	}
 

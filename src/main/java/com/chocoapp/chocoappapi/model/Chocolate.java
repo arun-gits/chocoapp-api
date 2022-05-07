@@ -33,7 +33,6 @@ public class Chocolate {
 
 	public Chocolate() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 }

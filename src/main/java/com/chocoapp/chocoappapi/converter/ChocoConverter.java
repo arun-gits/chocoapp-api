@@ -8,6 +8,10 @@ import com.chocoapp.chocoappapi.model.Chocolate;
 
 public class ChocoConverter {
 
+	private ChocoConverter() {
+		super();
+	}
+
 	public static ChocolateDTO toDTO(Chocolate chocolate) {
 		ChocolateDTO chocolateDto = new ChocolateDTO();
 		chocolateDto.setId(chocolate.getId());

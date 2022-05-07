@@ -1,13 +1,10 @@
 package com.chocoapp.chocoappapi.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 
@@ -22,24 +19,19 @@ public class Shopping {
 	@Column(name="id")
 	private Integer id;
 	
-	//@JoinColumn(name="order_id")
-	private Integer order_id;
-	
-//	@ManyToMany(cascade = CascadeType.PERSIST)
-//	@JoinColumn(name="user_id")
-//	private User user;
-	
-	private Integer choco_id;
-	
-	private String choco_name;
-	
-	private Integer choco_price;
+	private Integer orderId;
 		
-	private Integer choco_quantity;
+	private Integer chocoId;
 	
-	private String payment_mode;
+	private String chocoName;
 	
-	private String purchased_on;
+	private Integer chocoPrice;
+		
+	private Integer chocoQuantity;
+	
+	private String paymentMode;
+	
+	private String purchasedOn;
 	
 	private String user_address;
 		

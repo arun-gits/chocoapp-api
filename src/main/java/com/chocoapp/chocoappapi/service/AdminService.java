@@ -19,6 +19,8 @@ import com.chocoapp.chocoappapi.repository.UserRepository;
 @Repository
 public class AdminService {
 
+	private static final String INVALID_USER_ID = "Invalid user id";
+
 	@Autowired
 	UserRepository userRepository;
 
@@ -31,15 +33,15 @@ public class AdminService {
 	// view all users
 	public List<UserDTO> listAllUsers() {
 		List<User> usersList = userRepository.findAll();
-		List<UserDTO> users = UserConverter.toDTO(usersList);
-		return users;
+		
+		return  UserConverter.toDTO(usersList);
 	}
 
 	// delete user from the list
 	public String deleteUserById(int id) throws ValidationException {
 		Optional<User> user = userRepository.findById(id);
 		if (user.isEmpty()) {
-			throw new ValidationException("Invalid user id");
+			throw new ValidationException(INVALID_USER_ID);
 		}
 		userRepository.deleteById(id);
 		return "id " + id + " deleted successfully " + user;
@@ -49,7 +51,7 @@ public class AdminService {
 	public String blockUserById(int id) throws ValidationException {
 		Optional<User> user = userRepository.findById(id);
 		if (user.isEmpty()) {
-			throw new ValidationException("Invalid user id");
+			throw new ValidationException(INVALID_USER_ID);
 		}
 		userRepository.blockUser(id);
 		return "Successfully deactivated " + id;
@@ -59,7 +61,7 @@ public class AdminService {
 	public String activateUserById(int id) throws ValidationException {
 		Optional<User> user = userRepository.findById(id);
 		if (user.isEmpty()) {
-			throw new ValidationException("Invalid user id");
+			throw new ValidationException(INVALID_USER_ID);
 		}
 		userRepository.activateUser(id);
 		return "Successfully activated " + id;

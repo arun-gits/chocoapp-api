@@ -8,6 +8,10 @@ import com.chocoapp.chocoappapi.model.User;
 
 public class UserConverter {
 
+	private UserConverter() {
+		super();
+	}
+
 	public static UserDTO toDTO(User user) {
 		UserDTO userDto = new UserDTO();
 		userDto.setId(user.getId());

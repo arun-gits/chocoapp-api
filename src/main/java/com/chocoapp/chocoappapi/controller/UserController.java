@@ -25,7 +25,7 @@ public class UserController {
 	UserService userService;
 	
 	@PostMapping("register")
-	public ResponseEntity<?> register(@RequestBody  UserDTO user) {
+	public ResponseEntity<String> register(@RequestBody  UserDTO user) {
 		try {
 			userService.userRegistration(user);
 			return new ResponseEntity<>("Success",HttpStatus.OK);
@@ -40,7 +40,7 @@ public class UserController {
 	}
 	
 	@PostMapping("login")
-	public ResponseEntity<?> login(@RequestBody UserDTO user) {
+	public ResponseEntity<String> login(@RequestBody UserDTO user) {
 		try {
 			userService.userLogin(user);
 			return new ResponseEntity<>("Success",HttpStatus.OK);

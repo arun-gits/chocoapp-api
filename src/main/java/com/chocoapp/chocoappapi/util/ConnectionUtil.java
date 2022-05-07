@@ -11,8 +11,8 @@ import com.chocoapp.chocoappapi.exception.DBException;
 
 public class ConnectionUtil {
 	private static Logger log = LogManager.getLogger(ConnectionUtil.class);
-
-	public static Connection getConnection() throws Exception {
+	
+	public static Connection getConnection() throws DBException {
 		Connection connect = null;
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -20,13 +20,17 @@ public class ConnectionUtil {
 					"rev_user");
 		} catch (SQLException e) {
 			log.warn(e.getMessage());
-			e.printStackTrace();
+			// e.printStackTrace();
 			throw new DBException("Couldn't connect to server, check your internet connection");
 		} catch (Exception e) {
 			log.warn(e.getMessage());
-			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			// e.printStackTrace();
+			throw new DBException(e.getMessage());
 		}
 		return connect;
+	}
+
+	private ConnectionUtil() {
+		super();
 	}
 }

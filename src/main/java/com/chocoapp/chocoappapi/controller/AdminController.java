@@ -33,7 +33,7 @@ public class AdminController {
 	}
 
 	@DeleteMapping("delete-user-id/{id}")
-	public ResponseEntity<?> deleteById(@PathVariable("id") int id) {
+	public ResponseEntity<String> deleteById(@PathVariable("id") int id) {
 		try {
 			return new ResponseEntity<>(adminService.deleteUserById(id), HttpStatus.OK);
 		} catch (ValidationException e) {
@@ -42,7 +42,7 @@ public class AdminController {
 	}
 
 	@GetMapping("block-user-id/{id}")
-	public ResponseEntity<?> blockById(@PathVariable("id") int id) {
+	public ResponseEntity<String> blockById(@PathVariable("id") int id) {
 		try {
 			return new ResponseEntity<>(adminService.blockUserById(id), HttpStatus.OK);
 		} catch (ValidationException e) {
@@ -51,7 +51,7 @@ public class AdminController {
 	}
 
 	@GetMapping("activate-user-id/{id}")
-	public ResponseEntity<?> activateById(@PathVariable("id") int id) {
+	public ResponseEntity<String> activateById(@PathVariable("id") int id) {
 		try {
 			return new ResponseEntity<>(adminService.activateUserById(id), HttpStatus.OK);
 		} catch (ValidationException e) {
@@ -69,7 +69,7 @@ public class AdminController {
 	}
 
 	@PostMapping("add-chocolate")
-	public ResponseEntity<?> addChocolate(@RequestBody ChocolateDTO chocolate) {
+	public ResponseEntity<String> addChocolate(@RequestBody ChocolateDTO chocolate) {
 		try {
 			return new ResponseEntity<>(adminService.addChocolate(chocolate), HttpStatus.OK);
 		} catch (ValidationException e) {
@@ -78,7 +78,7 @@ public class AdminController {
 	}
 
 	@DeleteMapping("delete-choco-id/{id}")
-	public ResponseEntity<?> deleteChoco(@PathVariable("id") int id) {
+	public ResponseEntity<String> deleteChoco(@PathVariable("id") int id) {
 		try {
 			return new ResponseEntity<>(adminService.deleteChocoById(id), HttpStatus.OK);
 		} catch (ValidationException e) {
@@ -87,7 +87,7 @@ public class AdminController {
 	}
 
 	@PatchMapping("update-choco-price/{id}/{price}")
-	public ResponseEntity<?> updateChocoPrice(@PathVariable("id") int id, @PathVariable("price") int price) {
+	public ResponseEntity<String> updateChocoPrice(@PathVariable("id") int id, @PathVariable("price") int price) {
 		try {
 			return new ResponseEntity<>(adminService.updateChocoPrice(id, price), HttpStatus.OK);
 		} catch (ValidationException e) {
